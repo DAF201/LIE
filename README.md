@@ -2,6 +2,8 @@
  
 Simply I need more options for a thread...
 
+and I will try not to use external packages(python build in libs only)
+
 - id
 - function/object init
 - param
