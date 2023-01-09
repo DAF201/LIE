@@ -1,2 +1,0 @@
-class queue:
-    pass
