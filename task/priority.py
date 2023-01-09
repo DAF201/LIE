@@ -1,0 +1,2 @@
+class priority:
+    pass
