@@ -15,9 +15,10 @@ class task:
                  **kwargs: dict) -> None:
         # type checking
         if type(id) not in [str, int]:
-            raise_exception(TYPE_ERROR, currentframe())
+            raise_exception(TYPE_ERROR, currentframe(),
+                            kwargs={"variable": "task.id"})
 
-            # all keyword args
+        # all keyword args
         self.kwargs = kwargs
         kwargs_keys = self.kwargs.keys()
 
