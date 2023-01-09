@@ -1,7 +1,8 @@
 from inspect import getframeinfo
+from types import FrameType
 
 
-def raise_exception(exception, frame, **kwargs):
+def raise_exception(exception: Exception, frame: FrameType, **kwargs) -> None:
     (file, current_line, func_name,
      lines, index) = getframeinfo(frame)
     raise exception(kwargs=kwargs, file=file,

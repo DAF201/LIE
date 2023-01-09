@@ -50,6 +50,8 @@ class task:
         self.repeat_times = self.kwargs['repeat_times'] if 'repeat_times' in kwargs_keys else None
         # interval between each repeat?
         self.repeat_interval = self.kwargs['repeat_interval'] if 'repeat_interval' in kwargs_keys else None
+        # require a lock when running?
+        self.locked = self.kwargs['repeat_interval'] if 'repeat_interval' in kwargs_keys else False
 
         # hooks
         self.on_create = self.kwargs['on_create'] if 'on_create' in kwargs_keys else None
