@@ -1,35 +1,48 @@
+from threading import Thread
 from config import *
-from types import FunctionType, BuiltinFunctionType
-from typing import Any
+from types import FunctionType, BuiltinFunctionType, NoneType
 from priority import priority
 from error_and_exception import TYPE_ERROR, raise_exception
-from inspect import currentframe
+from inspect import currentframe, isclass
 
 
 class task:
     def __init__(self,
-                 id: str | int,
-                 task_content: FunctionType | BuiltinFunctionType | object | None,
-                 params: list | Any | None,
+                 task_id: str | int,
+                 task_content: FunctionType | BuiltinFunctionType | object,
+                 task_params: list | None = None,
                  task_priority: int = 0,
                  **kwargs: dict) -> None:
+
         # type checking
-        if type(id) not in [str, int]:
+        # id is str or int
+        if type(task_id) not in [str, int]:
             raise_exception(TYPE_ERROR, currentframe(),
-                            kwargs={"variable": "task.id"})
+                            kwargs={"variable": "task.task_id"})
+        # body can only be object(to run __init__) or function
+        if type(task_content) not in [FunctionType, BuiltinFunctionType] and not isclass(task_content):
+            raise_exception(TYPE_ERROR, currentframe(),
+                            kwargs={"variable": "task.task_content"})
+        # params can either be None or a list
+        if type(task_params) not in [list, NoneType]:
+            raise_exception(TYPE_ERROR, currentframe(),
+                            kwargs={"variable": "task.task_params"})
+        if type(task_priority) != int:
+            raise_exception(TYPE_ERROR, currentframe(),
+                            kwargs={"variable": "task.task_priority"})
 
         # all keyword args
         self.kwargs = kwargs
         kwargs_keys = self.kwargs.keys()
 
         # task id
-        self.id = str(id)
+        self.task_id = task_id
 
         # task function or object
         self.task_content = task_content
 
         # parameters
-        self.params = params
+        self.task_params = task_params
 
         # priority of task, from 0-3
         #  0: not important task, can be delayed
@@ -71,4 +84,5 @@ class task:
                 """ % (self.id, task_body, str(self.params), str(self.kwargs))
 
 
-task(object, None, None)
+# task(1, None)
+task(2, Thread, task_priority='1')
