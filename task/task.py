@@ -65,37 +65,42 @@ class task:
         if self.on_create != None:
             self.on_create()
 
+    # check types when init
     def type_checking(self, task_id, task_content, task_params, task_priority):
         # id is str or int
         if type(task_id) not in [str, int]:
             raise_exception(TYPE_ERROR, currentframe(),
-                            kwargs={"variable": "task.task_id"})
+                            kwargs={'variable': 'task.task_id'})
         # body can only be object(to run __init__) or function
         if type(task_content) not in [FunctionType, BuiltinFunctionType] and not isclass(task_content):
             raise_exception(TYPE_ERROR, currentframe(),
-                            kwargs={"variable": "task.task_content"})
+                            kwargs={'variable': 'task.task_content'})
         # params can either be None or a list
         if type(task_params) not in [list, NoneType]:
             raise_exception(TYPE_ERROR, currentframe(),
-                            kwargs={"variable": "task.task_params"})
+                            kwargs={'variable': 'task.task_params'})
         if type(task_priority) != int:
             raise_exception(TYPE_ERROR, currentframe(),
-                            kwargs={"variable": "task.task_priority"})
+                            kwargs={'variable': 'task.task_priority'})
 
+    # task compare
     def __eq__(self, __o: object) -> bool:
         try:
-            return (self.task_id == __o.task_id)
+            return (self.task_id == __o.task_id) and (self.task_content == __o.task_content) and (self.task_params == __o.task_params)
         except:
             return False
 
+    # task on start
     def __enter__(self) -> Any:
         if self.on_start != None:
             return self.on_start()
 
+    # task on finish
     def __exit__(self, type: Any, value: Any, trace: Any) -> Any:
         if self.on_finish != None:
             return self.on_finish()
 
+    # print
     def __str__(self) -> str:
         return """
                 id: %s
@@ -104,11 +109,20 @@ class task:
                 kwargs: %s
                 """ % (self.task_id, self.task_content, str(self.task_params), str(self.kwargs))
 
+    # on remove
     def __del__(self):
         # on remove cannot be returned
         if self.on_remove != None:
             self.on_remove()
         collect()
+
+    # Not used
+    def __getattr__(self, name: Any) -> None:
+        return None
+
+    # Not used
+    def __setattr__(self, name: Any, value: Any) -> None:
+        return None
 
 
 # task(1, None)
