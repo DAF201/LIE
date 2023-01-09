@@ -1,5 +1,5 @@
 from types import FunctionType, BuiltinFunctionType, NoneType
-from priority import priority
+from task_priority import priority
 from error_and_exception import TYPE_ERROR, raise_exception
 from inspect import currentframe, isclass
 from typing import Any
