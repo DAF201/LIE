@@ -15,21 +15,7 @@ class task:
                  **kwargs: dict) -> None:
 
         # type checking
-        # id is str or int
-        if type(task_id) not in [str, int]:
-            raise_exception(TYPE_ERROR, currentframe(),
-                            kwargs={"variable": "task.task_id"})
-        # body can only be object(to run __init__) or function
-        if type(task_content) not in [FunctionType, BuiltinFunctionType] and not isclass(task_content):
-            raise_exception(TYPE_ERROR, currentframe(),
-                            kwargs={"variable": "task.task_content"})
-        # params can either be None or a list
-        if type(task_params) not in [list, NoneType]:
-            raise_exception(TYPE_ERROR, currentframe(),
-                            kwargs={"variable": "task.task_params"})
-        if type(task_priority) != int:
-            raise_exception(TYPE_ERROR, currentframe(),
-                            kwargs={"variable": "task.task_priority"})
+        self.type_checking(task_id, task_content, task_params, task_priority)
 
         # all keyword args
         self.kwargs = kwargs
@@ -73,16 +59,32 @@ class task:
         self.on_finish = self.kwargs['on_finish']if 'on_finish' in kwargs_keys else None
         self.on_remove = self.kwargs['on_remove']if 'on_remove' in kwargs_keys else None
 
+    def type_checking(self, task_id, task_content, task_params, task_priority):
+        # id is str or int
+        if type(task_id) not in [str, int]:
+            raise_exception(TYPE_ERROR, currentframe(),
+                            kwargs={"variable": "task.task_id"})
+        # body can only be object(to run __init__) or function
+        if type(task_content) not in [FunctionType, BuiltinFunctionType] and not isclass(task_content):
+            raise_exception(TYPE_ERROR, currentframe(),
+                            kwargs={"variable": "task.task_content"})
+        # params can either be None or a list
+        if type(task_params) not in [list, NoneType]:
+            raise_exception(TYPE_ERROR, currentframe(),
+                            kwargs={"variable": "task.task_params"})
+        if type(task_priority) != int:
+            raise_exception(TYPE_ERROR, currentframe(),
+                            kwargs={"variable": "task.task_priority"})
+
     def __str__(self) -> str:
-        task_body = self.task_content.__name__ if (type(self.task_content) in [
-                                                   BuiltinFunctionType, FunctionType]) else self.task_content.__class__.__name__
         return """
                 id: %s
                 task: %s 
                 params: %s
                 kwargs: %s
-                """ % (self.id, task_body, str(self.params), str(self.kwargs))
+                """ % (self.task_id, self.task_content, str(self.task_params), str(self.kwargs))
 
 
 # task(1, None)
-task(2, Thread, task_priority='1')
+t = task(2, Thread, task_priority=1)
+print(t)
