@@ -1,4 +1,3 @@
-from config import *
 from error_and_exception import TYPE_ERROR, raise_exception
 from inspect import currentframe
 

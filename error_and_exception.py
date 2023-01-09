@@ -9,6 +9,11 @@ def raise_exception(exception, frame, **kwargs):
 
 
 class TYPE_ERROR(Exception):
-    def __init__(self, *args: object, **kwargs) -> None:
+    def __init__(self, *args: object, **kwargs: dict) -> None:
         super().__init__("incompatible variable typing at \n@file: %s\n@line: %s\n@function:%s\n@%s" %
                          (kwargs['file'], kwargs['line'], kwargs['func'], kwargs['kwargs']))
+
+
+class TIME_OUT_ERROR(Exception):
+    def __init__(self, *args: object, **kwargs) -> None:
+        super().__init__()

@@ -1,2 +1,0 @@
-class timeout:
-    pass

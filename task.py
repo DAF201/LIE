@@ -1,5 +1,3 @@
-from threading import Thread
-from config import *
 from types import FunctionType, BuiltinFunctionType, NoneType
 from priority import priority
 from error_and_exception import TYPE_ERROR, raise_exception
@@ -123,8 +121,3 @@ class task:
     # Not used
     def __setattr__(self, name: Any, value: Any) -> None:
         return None
-
-
-# task(1, None)
-t = task(2, Thread, task_priority=1)
-print(t)
