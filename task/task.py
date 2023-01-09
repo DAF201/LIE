@@ -1,6 +1,9 @@
-from typing import Any
+from config import *
 from types import FunctionType, BuiltinFunctionType
+from typing import Any
 from priority import priority
+from error_and_exception import TYPE_ERROR, raise_exception
+from inspect import currentframe
 
 
 class task:
@@ -10,8 +13,11 @@ class task:
                  params: list | Any | None,
                  task_priority: int = 0,
                  **kwargs: dict) -> None:
+        # type checking
+        if type(id) not in [str, int]:
+            raise_exception(TYPE_ERROR, currentframe())
 
-        # all keyword args
+            # all keyword args
         self.kwargs = kwargs
         kwargs_keys = self.kwargs.keys()
 
@@ -62,3 +68,6 @@ class task:
                 params: %s
                 kwargs: %s
                 """ % (self.id, task_body, str(self.params), str(self.kwargs))
+
+
+task(object, None, None)
