@@ -23,10 +23,8 @@ class task:
 
         # task id
         self.task_id = task_id
-
         # task function or object
         self.task_content = task_content
-
         # parameters
         self.task_params = task_params
 
@@ -35,7 +33,6 @@ class task:
         #  1: somehow important task, can start earlier than 0 task
         #  2: important, require a start_with_in range
         #  3: need to be started immediately, put at front of all other tasks
-
         if task_priority == 2:
             # default immediately start unless there is a 3 task at front
             start_with_in = self.kwargs['start_with_in'] if 'start_with_in' in self.kwargs.keys(
