@@ -9,20 +9,14 @@ from task_queue import task_queue
 class processor():
 
     def __init__(self, max_tasks: int = 5, max_pool_depth: int = 50) -> None:
-        # max tasks running at same time
         self.max_tasks = max_tasks
-        # max tasks hold
         self.max_pool_depth = max_pool_depth
-        # task queue
-        self.task_queue = task_queue()
-        # total task count
-        self.task_count = 0
-        # running task count
-        self.task_running = 0
+        # task queue, hold all tasks and return task to run
+        self.task_queue = task_queue(max_tasks, max_pool_depth)
 
     # start processing
     def run(self) -> None:
-        self.task_processing_thread = Thread(target=self.execute)
+        pass
 
     # add new task
     def new_task(self, task: task) -> None:

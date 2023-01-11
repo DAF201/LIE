@@ -3,15 +3,15 @@ from task_priority import priority
 
 
 class task_queue:
-    def __init__(self) -> None:
+    def __init__(self, max_tasks, max_pool_depth) -> None:
         self.queue = {0: [], 1: [], 2: [], 3: []}
         self.running = []
+        self.waitlist = []
+        self.current_pool_depth = 0
 
-    def append(self, task: task, position: str = 'end') -> None:
-        pass
+    def __iter__(self):
 
-    def pop(self, task_id: str, priority: priority = 0) -> None:
-        pass
+        return self
 
-    def get_task(self, task_id: str, priority: priority = 0) -> task:
+    def __next__(self) -> task:
         pass

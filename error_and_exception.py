@@ -9,9 +9,15 @@ def raise_exception(exception: Exception, frame: FrameType, **kwargs) -> None:
                     line=current_line, func=func_name)
 
 
+class TASK_INIT_ERROR(Exception):
+    def __init__(self, *args: object, **kwargs: dict) -> None:
+        super().__init__("TASK init failded at \n@file:%s\n@line:%s\n@function:%s\n@kwargs%s" %
+                         (kwargs['file'], kwargs['line'], kwargs['func'], kwargs['kwargs']))
+
+
 class TYPE_ERROR(Exception):
     def __init__(self, *args: object, **kwargs: dict) -> None:
-        super().__init__("incompatible variable typing at \n@file: %s\n@line: %s\n@function:%s\n@%s" %
+        super().__init__("incompatible variable typing at \n@file:%s\n@line:%s\n@function:%s\n@kwargs:%s" %
                          (kwargs['file'], kwargs['line'], kwargs['func'], kwargs['kwargs']))
 
 
