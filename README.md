@@ -1,6 +1,6 @@
 # TASKMGR(Unfinished)
  
-Simply I need more options for a thread...
+Simply I need more options for a thread... Still considering how to make the processor and queue.
 
 and I will try not to use external packages(python build in libs only)
 
