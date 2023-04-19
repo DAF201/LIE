@@ -1,5 +1,8 @@
 # TASKMGR(Unfinished)
  
+```diff
+- I will get back to this one once I have time, currently rushing for school stuffs
+```
 Simply I need more options for a thread... Still considering how to make the processor and queue.
 
 and I will try not to use external packages(python build in libs only)
