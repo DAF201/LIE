@@ -1,5 +1,9 @@
-import task
-import task_processor
+from task_body import *
+from task_cycle_clock import *
+from task_handler import *
+from task_timer import *
+from tasks_queue import *
+from tasks_stack import *
 
-new_task = task.task
-processor = task_processor.processor
+
+TASK_MGR = task_mgr()
