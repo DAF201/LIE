@@ -1,13 +1,15 @@
+# this module need to be rewrite later after task module finshed
 from threading import Thread
 from task_body import task
 from functools import wraps
 from concurrent import futures
 from task_exceptions import task_timeout_exception, raise_timeout_exception
 from datetime import datetime, timedelta
-TASK_TIMER_WAITLIST = []
+from __init__ import TASK_TIMER_WAITLIST
 
 
 def function_timer(seconds):
+    """this only work for function with no class"""
     def decorator(func):
         @wraps(func)
         def wrapper(*args, **kw):
@@ -22,6 +24,7 @@ def function_timer(seconds):
 
 
 class task_timer:
+    """track the timer costed by a task, discard the task if the task timeout(kill a thread function still in process)"""
     # all tasks being track
     __task_pool: list
     __task_pool_is_empty = True
@@ -34,7 +37,7 @@ class task_timer:
     def __init__(self) -> None:
         self.__task_pool = []
         self.__task_timer_main = Thread(target=self.__start__)
-        # self.__task_timer_main.daemon = True
+        self.__task_timer_main.daemon = True
         self.__task_timer_main.start()
 
     def __start__(self) -> None:
@@ -67,16 +70,15 @@ class task_timer:
                                 > cur_task.__getattribute__("timeout")):
                             cur_task.__getattribute__(
                                 "raise_timeout_exception")()
-                    except task_timeout_exception as time_out_exception:
+                    except task_timeout_exception:
                         cur_task.__setattr__("discard", True)
-                        cur_task.daemon = True
             except Exception as e:
                 print(e)
             finally:
                 # next thread in pool
                 self.__task_pool_index += 1
                 if (self.__task_pool_is_empty):
-                    print("EMPTY")
+                    print("empty pool")
 
     # add new task to pool
     def __add_task__(self) -> None:
