@@ -11,7 +11,7 @@ a = Thread(target=test)
 b = Thread(target=test)
 setattr(a, "onfinish", t)
 setattr(a, "onfinishargs", "123")
-setattr(a, "onfinishtimeout", 5)# this arrt is discard
+setattr(a, "onfinishtimeout", 5)# this arrt is discard(I will goes back to this later)
 a.start()
 b.start()
 print(task_timer.TASK_TIMER_WAITLIST)
