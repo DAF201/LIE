@@ -1,121 +1,146 @@
-# still unfinished, HW is not done yet
 from task_tools import Any, collect
+from task_body import task
+
+
+class ring:
+    """permanent tasks, cannot be remove once added. The iteration will not stop automatically also"""
+
+    def __init__(self) -> None:
+        self.contents = {}
+        self.length = 0
+
+    def append(self, task: task) -> int:
+        self.contents[self.length] = task
+        self.length += 1
+        return self.length-1
+
+    def __iter__(self) -> Any:
+        self.cur_index = 0
+        return self
+
+    def __next__(self) -> Any:
+        if self.cur_index >= self.length:
+            self.cur_index = 1
+            collect()
+            return self.contents[0]
+        else:
+            self.cur_index += 1
+            return self.contents[self.cur_index-1]
+
+    def __getitem__(self, key: int) -> Any:
+        if key > self.length-1:
+            return None
+        return self.contents[key]
+
+    def __setitem__(self, key: int, task: task) -> None:
+        self.contents[key] = task
+
+    def __len__(self) -> int:
+        return self.length
 
 
 class node:
-
-    def __init__(self, data: Any = None) -> None:
-        self.__data: Any
-        self.last: node
-        self.next: node
-
-        self.__data = data
-        self.last = None
+    def __init__(self, task: task) -> None:
+        self.task = task
         self.next = None
 
-    def get(self) -> Any:
-        return self.__data
 
-    def replace(self, data) -> None:
-        self.__data = data
-
-    def pop(self) -> None:
-        self.__data = None
-
-    def __del__(self) -> None:
-        pass
-
-
-# linear linked node list (interface like thing)
 class linked_node_list:
-    def __init__(self, root: node = None) -> None: self.root = root
-    def append(self, node: node, index: int = -1) -> None: pass
-    def pop(self) -> Any: pass
-    # for iteration?
-    def __iter__(self) -> Any: pass
-    def __next__(self) -> Any: pass
-    # when remove
-    def __del__(self) -> None: collect()
-    # when try to access
-    def __enter__(self) -> Any: pass
-    def __exit__(self, type, value, trace) -> Any: pass
+    def __init__(self, root: task = None) -> None:
+        self.root = None
+        self.length = 0
+
+    def append(self, task: task) -> None:
+        """add to the tail"""
+        if self.root == None:
+            self.root = node(task)
+            self.length = 1
+        else:
+            self.root: node
+            current_node = self.root
+            while current_node.next != None:
+                current_node = current_node.next
+            current_node.next = node(task)
+            self.length += 1
+
+    def push(self, task: task) -> None:
+        """add to the head"""
+        if self.root == None:
+            self.root = node(task)
+            self.length = 1
+        else:
+            new_root = node(task)
+            new_root.next = self.root
+            self.root = new_root
+            self.length += 1
+
+    def remove(self, task_id: int = -1) -> None:
+        """remove a task node from list, default remove tail is not assigned"""
+        # empty list
+        if self.length == 0:
+            return None
+
+        current_node = self.root
+        # remove tail
+        if task_id == -1:
+            # last node from tail
+            while (current_node.next.next != None):
+                current_node = current_node.next
+            val_backup = current_node.next.task
+            current_node.next = None
+            self.length -= 1
+            collect()
+            return val_backup
+        # remove head
+        if task_id == 0:
+            val_backup = self.root.task
+            self.root = self.root.next
+            self.length -= 1
+            collect()
+            return val_backup
+
+        # found at root
+        if current_node.task.task_id == task_id:
+            # move root to next, save value backup, remove
+            self.root = current_node.next
+            val_backup = current_node.task
+            self.length -= 1
+            collect()
+            return val_backup
+        else:
+            # the linked node list only has a root, and not at root
+            if current_node.next == None:
+                return None
+
+            # if not at root and length is not 1
+            while (current_node.next != None):
+                if current_node.next.task.task_id == task_id:
+                    val_backup = current_node.next.task
+                    current_node.next = current_node.next.next
+                    self.length -= 1
+                    collect()
+                    return val_backup
+                else:
+                    current_node = current_node.next
+            collect()
+            return None
+
+    def __iter__(self):
+        self.current_node = self.root
+        return self
+
+    def __next__(self):
+        if self.current_node != None:
+            task = self.current_node.task
+            self.current_node = self.current_node.next
+            return task
+        else:
+            collect()
+            raise StopIteration
+
+    def __len__(self):
+        return self.length
 
 
-# linked node list as a ring keep rotating to get the next task from a fixed position
-class ring:
-
-    current = None
-    num_of_tasks_in_ring = 0
-
-    def __init__(self, current: node = None) -> None:
-        self.current = current
-
-    def append(self, new_node: node) -> None:
-        last = self.current.last
-        last.next = new_node
-        new_node.last = last
-        new_node.next = self.current
-        self.current.last = new_node
-
-    def pop(self) -> Any:
-        self.current.last.next = self.current.next
-        self.current.next.last = self.current.last
-        data = self.current.get()
-        self.current = self.current.next
-        return data
-
-    @classmethod
-    def is_empty(self) -> bool:
-        return self.num_of_tasks_in_ring == 0
-
-    # for iteration?
-    def __iter__(self): pass
-    def __next__(self): pass
-    # when remove
-    def __del__(self): pass
-    # when try to access
-    def __enter__(self): pass
-    def __exit__(self, type, value, trace): pass
-
-
-class stack(linked_node_list):
-    def __init__(self, root: node = None) -> None:
-        super().__init__(root)
-
-    def append(self, node: node) -> None:
-        return super().append(node, 0)
-
-
-class queue(linked_node_list):
-    def __init__(self, root: node = None) -> None:
-        super().__init__(root)
-
-    def append(self, node: node) -> None:
-        return super().append(node, -1)
-
-
-# lua table like strcture
-class table:
-    def __init__(self, node: node = None) -> None:
-        pass
-
-    def __keys__(self) -> None: pass
-    def __iter__(self) -> None: pass
-    def __next__(self) -> None: pass
-    def __getitem__(self) -> None: pass
-
-
-class task_container(stack, queue, ring):
-    def __init__(self, root=None, current=None) -> None:
-        stack.__init__(self, root)
-        queue.__init__(self, root)
-        ring.__init__(self, current)
-
-    def append(self, node: node, target: str = "ring") -> None:
-        match target:
-            case "ring":
-                pass
-            case "queue":
-                pass
-            case "stack":
-                pass
+class stack:
+    pass
