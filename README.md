@@ -1,5 +1,7 @@
 # timer testing
 ```python
+# this part need to be rewrite to work with task container and task class
+
 import task_timer
 from threading import Thread
 def test():
