@@ -19,7 +19,7 @@ class task(Thread):
         self.__terminate_flag = False
 
         # task id for trace
-        self.task_id = hash(str(args)+str(kwargs))
+        self.task_id = hash(str(self)+str(args)+str(kwargs))
         self.priority = priority
         self.end_callback = end_callback
         self.return_able = return_able
