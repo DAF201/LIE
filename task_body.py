@@ -1,11 +1,15 @@
-from threading import Thread, Event
-from sys import settrace
-from gc import collect
+from task_tools import *
 
 
 class task(Thread):
-    def __init__(self, *args, **keywords) -> None:
-        Thread.__init__(self, *args, **keywords)
+    num_of_thread_running = 0
+
+    def __init__(self, priority=0, end_callback=None, return_able=False, group=None, target=None, name=None,
+                 args=(), kwargs={}, daemon=False) -> None:
+        """priority from -2 to 2, end callback will be called after finished"""
+        Thread.__init__(self, group=group, target=target, name=name,
+                        args=args, kwargs=kwargs, daemon=daemon)
+        self._return = None
 
         # for blocking
         self.__pause_event = Event()
@@ -14,7 +18,21 @@ class task(Thread):
         self.__pause_flag = False
         self.__terminate_flag = False
 
-    # start func running
+        # task id for trace
+        self.task_id = hash(str(args)+str(kwargs))
+        self.priority = priority
+        self.end_callback = end_callback
+        self.return_able = return_able
+
+    # override Thread.run
+    def run(self):
+        try:
+            if self._target is not None:
+                self._return = self._target(*self._args,
+                                            **self._kwargs)
+        finally:
+            del self._target, self._args, self._kwargs
+
     def start(self) -> None:
         self.__run_backup = self.run
         self.run = self.__run
@@ -60,6 +78,15 @@ class task(Thread):
     def is_terminated(self) -> bool:
         return self.__terminate_flag
 
-    @classmethod
-    def __collect__() -> None:
-        collect()
+    def is_paused(self) -> bool:
+        return self.__pause_flag
+
+    def is_running(self) -> bool:
+        return self.is_alive() and (not self.__pause_flag) and (not self.__terminate_flag)
+
+    # def __str__(self) -> str:
+    #     return self.getName()+"\n"+str(self.task_id)
+
+    def __get_result__(self) -> Any:
+        """cannot guarentee finished, will add a flag later but my lunch time is about to end"""
+        return self._return

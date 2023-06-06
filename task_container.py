@@ -1,5 +1,5 @@
 from task_tools import Any, collect
-from task_body import task
+# from task_body import task
 
 
 class ring:
@@ -9,7 +9,7 @@ class ring:
         self.contents = {}
         self.length = 0
 
-    def append(self, task: task) -> int:
+    def append(self, task: Any) -> int:
         self.contents[self.length] = task
         self.length += 1
         return self.length-1
@@ -32,7 +32,7 @@ class ring:
             return None
         return self.contents[key]
 
-    def __setitem__(self, key: int, task: task) -> None:
+    def __setitem__(self, key: int, task: Any) -> None:
         self.contents[key] = task
 
     def __len__(self) -> int:
@@ -40,17 +40,17 @@ class ring:
 
 
 class node:
-    def __init__(self, task: task) -> None:
+    def __init__(self, task: Any) -> None:
         self.task = task
         self.next = None
 
 
 class linked_node_list:
-    def __init__(self, root: task = None) -> None:
+    def __init__(self, root: Any = None) -> None:
         self.root = None
         self.length = 0
 
-    def append(self, task: task) -> None:
+    def append(self, task: Any) -> None:
         """add to the tail"""
         if self.root == None:
             self.root = node(task)
@@ -63,7 +63,7 @@ class linked_node_list:
             current_node.next = node(task)
             self.length += 1
 
-    def push(self, task: task) -> None:
+    def push(self, task: Any) -> None:
         """add to the head"""
         if self.root == None:
             self.root = node(task)
@@ -74,7 +74,7 @@ class linked_node_list:
             self.root = new_root
             self.length += 1
 
-    def remove(self, task_id: int = -1) -> None:
+    def remove(self, task_id: int = -1) -> Any:
         """remove a task node from list, default remove tail is not assigned"""
         # empty list
         if self.length == 0:
@@ -125,11 +125,14 @@ class linked_node_list:
             collect()
             return None
 
-    def __iter__(self):
+    def is_empty(self) -> bool:
+        return self.length == 0
+
+    def __iter__(self) -> Any:
         self.current_node = self.root
         return self
 
-    def __next__(self):
+    def __next__(self) -> Any:
         if self.current_node != None:
             task = self.current_node.task
             self.current_node = self.current_node.next
@@ -138,9 +141,44 @@ class linked_node_list:
             collect()
             raise StopIteration
 
-    def __len__(self):
+    def __len__(self) -> int:
         return self.length
 
 
 class stack:
-    pass
+    def __init__(self) -> None:
+        self.node_list = linked_node_list()
+
+    def append(self, task: Any) -> None:
+        self.node_list.push(task)
+
+    def pop(self) -> Any:
+        return self.node_list.remove(0)
+
+    def is_empty(self) -> bool:
+        return self.node_list.is_empty()
+
+
+class queue:
+    def __init__(self) -> None:
+        self.node_list = linked_node_list()
+
+    def append(self, task: Any) -> None:
+        self.node_list.append(task)
+
+    def pop(self) -> Any:
+        return self.node_list.remove()
+
+    def is_empty(self) -> bool:
+        return self.node_list.is_empty()
+
+
+class task_container:
+    def __init__(self) -> None:
+        self.results = {}
+        self.priority_container = {"detached": [ring(), stack(), queue()]}
+        for i in range(-2, 3):
+            self.priority_container[i] = [ring(), stack(), queue()]
+
+    def __str__(self) -> str:
+        return str(self.priority_container)
