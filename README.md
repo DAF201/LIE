@@ -106,3 +106,82 @@ Current Time = 13:31:44
 fully terminated
 Current Time = 13:31:44
 ```
+# container and task result test
+
+```python
+
+# Container test
+
+from task_body import *
+from task_container import *
+from task_body import task
+r = ring()
+
+r.append(1)
+r.append(2)
+r.append(3)
+r.append("ds")
+
+r[3] = 4
+print(r[3])
+print(r[5])
+print()
+# this will not stop so I am not testing it here
+
+# for x in r:
+#     print(x)
+# print(r.length)
+
+t1 = task(target=print)
+t2 = task(target=sum)
+t3 = task(target=any)
+print(t1.task_id)
+
+lnl = linked_node_list()
+lnl.append(t1)
+lnl.append(t2)
+lnl.append(t3)
+for tasks in lnl:
+    print(tasks)
+print()
+print(len(lnl))
+print(lnl.remove(0))
+print(len(lnl))
+print()
+for tasks in lnl:
+    print(tasks)
+
+print()
+tc = task_container()
+print(tc)
+print()
+# task get result test
+
+t = task(target=max, args=(1, 2))
+t.start()
+t.join()
+print(t.__get_result__())
+
+```
+
+```
+4
+None
+
+-9215257271159047211
+<task(Thread-7 (print), initial)>
+<task(Thread-8 (sum), initial)>
+<task(Thread-9 (any), initial)>
+
+3
+<task(Thread-7 (print), initial)>
+2
+
+<task(Thread-8 (sum), initial)>
+<task(Thread-9 (any), initial)>
+
+{'detached': [<task_container.ring object at 0x000002408ADE4DF0>, <task_container.stack object at 0x000002408ADE4640>, <task_container.queue object at 0x000002408ADE44C0>], -2: [<task_container.ring object at 0x000002408ADE4E50>, <task_container.stack object at 0x000002408ADE4760>, <task_container.queue object at 0x000002408ADE4550>], -1: [<task_container.ring object at 0x000002408ADE4430>, <task_container.stack object at 0x000002408ADE4610>, <task_container.queue object at 0x000002408ADE4310>], 0: [<task_container.ring object at 0x000002408DC44160>, <task_container.stack object at 0x000002408DC44A60>, <task_container.queue object at 0x000002408DC44B20>], 1: [<task_container.ring object at 0x000002408DC44BE0>, <task_container.stack object at 0x000002408DC44C40>, <task_container.queue object at 0x000002408DC44D00>], 2: [<task_container.ring object at 0x000002408DC44DC0>, <task_container.stack 
+object at 0x000002408DC44E20>, <task_container.queue object at 0x000002408DC44EE0>]}
+
+2
+```
