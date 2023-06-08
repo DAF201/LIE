@@ -1,5 +1,4 @@
 from task_tools import Any, collect
-# from task_body import task
 
 
 class ring:
@@ -13,6 +12,9 @@ class ring:
         self.contents[self.length] = task
         self.length += 1
         return self.length-1
+
+    def pop(self) -> Any:
+        return self.__next__()
 
     def __iter__(self) -> Any:
         self.cur_index = 0
@@ -37,6 +39,9 @@ class ring:
 
     def __len__(self) -> int:
         return self.length
+
+    def is_empty(self) -> bool:
+        return self.length == 0
 
 
 class node:
@@ -176,9 +181,13 @@ class queue:
 class task_container:
     def __init__(self) -> None:
         self.results = {}
-        self.priority_container = {"detached": [ring(), stack(), queue()]}
+        # you don't want to see detached thread running forever so no ring
+        self.priority_container = {"detached": [stack(), queue()]}
         for i in range(-2, 3):
             self.priority_container[i] = [ring(), stack(), queue()]
+
+    def is_empty(self, priority=0) -> bool:
+        return self.priority_container[priority][0].is_empty() and self.priority_container[priority][1].is_empty() and self.priority_container[priority][2].is_empty()
 
     def __str__(self) -> str:
         return str(self.priority_container)
