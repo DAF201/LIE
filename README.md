@@ -1,3 +1,5 @@
+# wait until I finish my courses this semester(currently sticking with c++, so I may have that part implemted soon)😇
+
 # timer testing
 ## this part is reworking
 ```python
