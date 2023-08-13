@@ -1,11 +1,11 @@
 # LIE
-Labor Is Evil
+(Labor Is Evil)
 
-First thing first, I cannot guarentee everything happens properly like result ready, priority working properly, and thread pauses/resume/termeintes immidiently. Every functions are suggestion based.
+First thing first, Every functions are suggestion based, I cannot guarentee everything happens properly like result ready, priority working properly, and thread pauses/resume/termeintes immidiently.
 
-Just provide some features like pause, resume, terminate, timeout, priority and return value to thread
+Just a package provides some features like pause, resume, terminate, timeout, priority and return value to thread
 
-I want to keep everything separate still, so I may use 'task' separately if i just need a pausable/resumable and terminatable thread at some point in the future
+Incase I want to keep everything separate still, so I may use 'task' separately if i just need a pausable/resumable and terminatable thread at some point in the future
 
 # features
 
@@ -24,9 +24,9 @@ Task: provide pause, resume, terminate, and return value to thread
 # Example code
 ```python
 from time import sleep
-from task import task
-from clock import clock
-from dash_board import dash_board
+from LIE.task import task
+from LIE.clock import clock
+from LIE.dash_board import dash_board
 
 
 def inf(name):
@@ -67,6 +67,7 @@ sleep(2)
 print(clr.__result__)
 
 d.terminate()
+
 ```
 
 ```
