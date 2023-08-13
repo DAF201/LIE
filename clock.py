@@ -48,6 +48,7 @@ class clock(priority):
             return
         self.__paused = False
         self.__terminated = True
+        self.__task.resume()
         self.__task.terminate()
         collect()
 
