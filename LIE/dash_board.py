@@ -1,6 +1,6 @@
-from DS import heap
-from task import task
-from clock import clock
+from LIE.DS import heap
+from LIE.task import task
+from LIE.clock import clock
 from time import sleep
 from gc import collect
 

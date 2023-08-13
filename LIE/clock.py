@@ -1,5 +1,5 @@
-from task import task
-from priority import priority
+from LIE.task import task
+from LIE.priority import priority
 from time import time, sleep
 from gc import collect
 

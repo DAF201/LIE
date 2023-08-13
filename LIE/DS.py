@@ -1,4 +1,4 @@
-from priority import priority
+from LIE.priority import priority
 
 
 class arr:
