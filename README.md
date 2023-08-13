@@ -1,7 +1,7 @@
 # LIE
 Labor Is Evil
 
-First thing first, I cannot guarentee everything happens properly like result ready, priority working properly, and thread paused/termeinted immidiently. Every functions are suggestion based.
+First thing first, I cannot guarentee everything happens properly like result ready, priority working properly, and thread pauses/resume/termeintes immidiently. Every functions are suggestion based.
 
 Just provide some features like pause, resume, terminate, timeout, priority and return value to thread
 
