@@ -38,7 +38,7 @@ fourthfinished
 thirdfinished
 []
 ```
-# Clcok
+# Clock
 ```python
 from task import task
 from time import sleep
