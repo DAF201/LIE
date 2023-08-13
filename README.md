@@ -1,3 +1,10 @@
+# LIE
+labor is evil x 
+
+linear insertion enquiry ✓
+
+Just provide some features like pause, resume, terminate, timeout, priority and return value to thread
+
 I want to keep everything separate still, so I may use 'task' separately if i just need a pausable/resumable and terminatable thread at some point in the future
 # dash board
 the priority is not guarenteed, it cannot guarentee higher priority task being executed first
