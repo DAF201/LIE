@@ -1,5 +1,37 @@
 I want to keep everything separate still, so I may use 'task' separately if i just need a pausable/resumable and terminatable thread at some point in the future
-# test
+# dash board
+the priority is not guarenteed, it cannot guarentee higher priority task being executed first
+```python
+from dash_board import dash_board
+from time import sleep
+
+
+def fiv(name):
+    sleep(5)
+    print(name+'finished')
+
+
+d = dash_board(queue_size=1)
+d.new_task(priority=1, target=fiv, args=['first'])
+sleep(1)
+d.new_task(priority=2, target=fiv, args=['sec'])
+sleep(1)
+d.new_task(priority=3, target=fiv, args=['third'])
+d.new_task(priority=4, target=fiv, args=['fourth'])
+
+sleep(6)
+print(d.__ref__)
+d.terminate()
+```
+
+```
+firstfinished
+secfinished
+fourthfinished
+thirdfinished
+[]
+```
+# Clcok
 ```python
 from task import task
 from time import sleep
