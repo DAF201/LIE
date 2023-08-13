@@ -10,97 +10,57 @@ def fin():
     print('running')
     sleep(1)
 
-
-def inf():
+def inf(i):
     while (True):
-        print('1 is running')
+        print('%s is running\n' % str(i))
         sleep(1)
-        break
-
-
-def inf2():
-    while (True):
-        print('2 is running')
-        sleep(1)
-
-
-def inf3():
-    while (True):
-        print('3 is running')
-        sleep(1)
-
 
 tk = task(target=fin)
-tk1 = task(target=inf)
-tk2 = task(target=inf2)
-tk3 = task(target=inf3)
-t = clock(tk)
-t1 = clock(tk1, timeout=3, priority=2)
-t2 = clock(tk2, timeout=6, priority=3)
-t3 = clock(tk3)
+tki = task(target=inf, args=[1,])
+tkit = task(target=inf, args=['tkit',])
 
-t.start()
-t1.start()
-t2.start()
-t3.start()
-
-print(t.__status__)
-print(t1.__status__)
-print(t2.__status__)
-print(t3.__status__)
+c1 = clock(tk)
+c2 = clock(tki, timeout=2)
+c3 = clock(tkit)
+c1.start()
+c2.start()
+c3.start()
 
 sleep(3)
+print(c1.__status__)
+print(c2.__status__)
+print(c3.__status__)
+sleep(3)
+c3.terminate()
+print(c1.__status__)
+print(c2.__status__)
+print(c3.__status__)
 
-print(t.__status__)
-print(t1.__status__)
-print(t2.__status__)
-print(t3.__status__)
-
-sleep(4)
-
-print(t.__status__)
-print(t1.__status__)
-print(t2.__status__)
-print(t3.__status__)
-
-t3.terminate()
-print(t.__status__)
-print(t1.__status__)
-print(t2.__status__)
-print(t3.__status__)
 ```
 ```
-running2 is running1 is running
+1 is running
+running
+
+tkit is running
+
+tkit is running
+1 is running
 
 
-{'paused': False, 'terminated': False, 'ended': False}
-3 is running
-{'paused': False, 'terminated': False, 'ended': False}
-{'paused': False, 'terminated': False, 'ended': False}
-{'paused': False, 'terminated': False, 'ended': False}
-2 is running
-3 is running
-2 is running
-3 is running
+1 is running
+tkit is running
+
+
 {'paused': False, 'terminated': False, 'ended': True}
-{'paused': False, 'terminated': False, 'ended': True}
+{'paused': False, 'terminated': True, 'ended': False}
 {'paused': False, 'terminated': False, 'ended': False}
-{'paused': False, 'terminated': False, 'ended': False}
-2 is running
-3 is running
-2 is running
-3 is running
-2 is running
-3 is running
-2 is running
-3 is running
+tkit is running
+
+tkit is running
+
+tkit is running
+
 {'paused': False, 'terminated': False, 'ended': True}
 {'paused': False, 'terminated': True, 'ended': False}
 {'paused': False, 'terminated': True, 'ended': False}
-{'paused': False, 'terminated': False, 'ended': False}
-{'paused': False, 'terminated': False, 'ended': True}
-{'paused': False, 'terminated': True, 'ended': False}
-{'paused': False, 'terminated': True, 'ended': False}
-{'paused': False, 'terminated': True, 'ended': False}
-PS C:\Users\daf20\Documents\GitHub>
 ```
