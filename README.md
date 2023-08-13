@@ -1,7 +1,7 @@
 # LIE
-labor is evil x 
+Labor Is Evil
 
-linear insertion enquiry ✓
+First thing first, I cannot guarentee everything happens properly like result ready, priority working properly, and thread paused/termeinted immidiently. Every functions are suggestion based.
 
 Just provide some features like pause, resume, terminate, timeout, priority and return value to thread
 
