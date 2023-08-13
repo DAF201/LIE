@@ -1,3 +1,4 @@
+I want to keep everything separate still, so I may use 'task' separately if i just need a pausable/resumable and terminatable thread at some point in the future
 # test
 ```python
 from task import task
