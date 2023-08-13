@@ -59,5 +59,13 @@ class clock(priority):
     def __priority__(self):
         return self.__priority
 
+    @property
+    def __result__(self):
+        return self.__task.__result__
+
+    @property
+    def __task__id__(self):
+        return self.__task.__task_id__
+
     def __str__(self) -> str:
         return str(self.__task)

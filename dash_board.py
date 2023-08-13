@@ -13,6 +13,7 @@ class dash_board:
         self.__active = 0
         self.__exec = task(target=self.exec)
         self.__exec.start()
+        self.task_ref = {}
 
     def new_task(self, priority=1, time_out=None, inverval=1, group=None, target=None, name=None,
                  args=(), kwargs={}, daemon=False):
@@ -20,13 +21,14 @@ class dash_board:
                         name=name, args=args, kwargs=kwargs, daemon=daemon)
         new_clock = clock(new_task, priority, time_out, inverval)
         self.__heap.insert(new_clock)
+        self.task_ref[new_clock.__task__id__] = new_clock
+        return new_clock.__task__id__
 
     def exec(self):
         self.__exect = task(target=self.exect)
         self.__exect.start()
         while (True):
             for c in self.__ref:
-                c: clock
                 if c.__status__['terminated'] or c.__status__['ended']:
                     self.__ref.remove(c)
                 elif c.__status__['paused']:
@@ -53,6 +55,7 @@ class dash_board:
         collect()
         raise SystemExit()
 
-    @property
-    def __ref__(self):
-        return self.__ref
+    def __get_result__(self, id):
+        result = self.task_ref[id].__result__
+        del self.task_ref[id]
+        return result
