@@ -1,7 +1,6 @@
 # test
 ```python
 from task import task
-from DS import heap
 from time import sleep
 from clock import clock
 
