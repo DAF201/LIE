@@ -103,3 +103,40 @@ tkit is running
 {'paused': False, 'terminated': True, 'ended': False}
 {'paused': False, 'terminated': True, 'ended': False}
 ```
+# return value
+if result ready is not guarenteed, you need to check clock.__status__['ended']
+```python
+from dash_board import dash_board
+from time import sleep
+from task import task
+from clock import clock
+
+
+def fiv(name):
+    sleep(5)
+    print(name+'finished')
+
+
+def add(a, b):
+    sleep(1)
+    return a+b
+
+
+tk = task(target=add, args=[1, 2,])
+t = clock(tk)
+t.start()
+sleep(2)
+print(t.__result__)
+d = dash_board(queue_size=1)
+id = d.new_task(priority=1, target=add, args=[1, 1,])
+sleep(2)
+print(d.__get_result__(id))
+print(d.task_ref)
+d.terminate()
+
+```
+```
+3
+2
+{}
+```
