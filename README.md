@@ -1,7 +1,9 @@
 # LIE
 (Labor Is Evil)
 
+```shell
 pip install git+https://github.com/DAF201/labor_is_evil
+```
 
 First thing first, Every functions are suggestion based, I cannot guarentee everything happens properly like result ready, priority working properly, and thread pauses/resume/termeintes immidiently.
 
