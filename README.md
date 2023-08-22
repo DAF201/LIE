@@ -9,3 +9,10 @@ t_wait(condition);
 //the function need to be like
 void *func(cond_var &condition, void *args)
 ```
+example function:
+```c++
+    string str = "t";
+    task *t = new task(print, &str);
+    t->__resume();
+    t->__pause();
+```
