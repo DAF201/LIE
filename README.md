@@ -1,7 +1,7 @@
 # LIE
 ~~for C or C++ on linux environment~~
 
-for C++ only, I gave up C part it is too annoying.
+for linux C++ only, I gave up C part it is too annoying, and I can't guarentee it will work because when you try to pause/terminate it, the thread may passed the pausing/breaking point already and will not execute that part anymore.
 
 Now the thread will not start once created, you need to call start to start the thread.
 
@@ -9,7 +9,7 @@ Also providing get result, pause, resume, and terminate.
 
 ## how to use
 ```c++
-// function need to be in form of
+// function need to be in form of, param is basically a void* but I typedef it for easier reading
 t_ret demo(cond_var &condition, param args)
 // insert this into a suitable place of pausing a function
 t_wait(condition);
