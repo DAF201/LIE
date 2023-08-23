@@ -1,7 +1,11 @@
 # LIE
 ~~for C or C++ on linux environment~~
 
-for C++ only, I gave up C part it is too annoying
+for C++ only, I gave up C part it is too annoying.
+
+Now the thread will not start once created, you need to call start to start the thread.
+
+Also providing get result, pause, resume, and terminate.
 
 ## how to use
 ```c++
@@ -52,6 +56,8 @@ int main()
     task *t2 = new task(demo2, &str);
     t2->__start();
     sleep(2);
+
+    // this is not guarenteed to return the value, if the thread is still running it will reutrn a nullptr
     if (t2->__get_res() == nullptr)
     {
         cout << "null" << endl;
