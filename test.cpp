@@ -4,28 +4,42 @@
 #include <iostream>
 using namespace std;
 
-void *print(cond_var &condition, void *str)
+t_ret demo1(cond_var &condition, param args)
 {
-    cout << *((string *)str) << endl;
     while (1)
     {
         t_wait(condition);
-        cout << "running" << endl;
+        t_term(condition);
+        cout << *(int *)args << endl;
         sleep(1);
     }
-    return nullptr;
+    return args;
 }
-
+t_ret demo2(cond_var &condition, param args)
+{
+    t_wait(condition);
+    return args;
+}
 int main()
 {
-    signal(SIGTSTP, SIG_IGN);
-    string str = "t";
-    task *t = new task(print, &str);
-    sleep(3);
-    t->__resume();
-    sleep(3);
-    t->__pause();
-    sleep(3);
-    t->__resume();
-    sleep(3);
+    int str = 123;
+    task *t1 = new task(demo1, &str);
+    t1->__start();
+    sleep(2);
+    t1->__pause();
+    sleep(2);
+    t1->__resume();
+    sleep(2);
+    t1->__term();
+    task *t2 = new task(demo2, &str);
+    t2->__start();
+    sleep(2);
+    if (t2->__get_res() == nullptr)
+    {
+        cout << "null" << endl;
+    }
+    else
+    {
+        cout << *(int *)(t2->__get_res()) << endl;
+    }
 }
