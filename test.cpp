@@ -3,6 +3,9 @@
 #include <stdio.h>
 #include <iostream>
 using namespace std;
+// for this two, you are in responsible to insert to the correct place. IDK where is your thread executing once started and you want to do something to it.
+// t_wait(condition);
+// t_term(condition);
 
 t_ret demo1(cond_var &condition, param args)
 {
