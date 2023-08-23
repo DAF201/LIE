@@ -2,17 +2,63 @@
 ~~for C or C++ on linux environment~~
 
 for C++ only, I gave up C part it is too annoying
+
+## how to use
 ```c++
-// how to use:
-// add this to where you think it is good okay to pause the thread while running
+// function need to be in form of
+t_ret demo(cond_var &condition, param args)
+// insert this into a suitable place of pausing a function
 t_wait(condition);
-//the function need to be like
-void *func(cond_var &condition, void *args)
+// insert this into a suitable place of stopping a function
+t_term(condition);
 ```
-example function:
+also I cannot guarentee when if the result is ready or not, if not it will return a nullptr
+
+test.cpp
 ```c++
-    string str = "t";
-    task *t = new task(print, &str);
-    t->__resume();
-    t->__pause();
+#include "work_space/LIE/include/pthread_minus_minus.hpp"
+#include <string.h>
+#include <stdio.h>
+#include <iostream>
+using namespace std;
+
+t_ret demo1(cond_var &condition, param args)
+{
+    while (1)
+    {
+        t_wait(condition);
+        t_term(condition);
+        cout << *(int *)args << endl;
+        sleep(1);
+    }
+    return args;
+}
+t_ret demo2(cond_var &condition, param args)
+{
+    t_wait(condition);
+    return args;
+}
+int main()
+{
+    int str = 123;
+    task *t1 = new task(demo1, &str);
+    t1->__start();
+    sleep(2);
+    t1->__pause();
+    sleep(2);
+    t1->__resume();
+    sleep(2);
+    t1->__term();
+    task *t2 = new task(demo2, &str);
+    t2->__start();
+    sleep(2);
+    if (t2->__get_res() == nullptr)
+    {
+        cout << "null" << endl;
+    }
+    else
+    {
+        cout << *(int *)(t2->__get_res()) << endl;
+    }
+}
 ```
