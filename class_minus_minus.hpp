@@ -2,10 +2,6 @@
 #define class_minus_minus
 #include <map>
 #include <string>
-#include <string.h>
-#include <typeinfo>
-#include <iostream>
-
 typedef void *(*func)(void *);
 #define func_info(arg) (void *)arg, #arg
 #define attr_info(arg) &arg, #arg
