@@ -72,3 +72,20 @@
 //     cout << get_attr(a, test_attr, int) << endl;
 //     return 0;
 // }
+
+
+// #include "work_space/LIE/include/string_minus_minus.h"
+// #include <iostream>
+// using namespace std;
+// int main()
+// {
+//     elastic_string *es = new elastic_string("test");
+//     elastic_string *es2 = new elastic_string("test");
+//     cout << es->str() << " " << es2->str() << endl;
+//     *es += "";
+//     cout << es->str() << " " << es2->str() << endl;
+//     *es += "1";
+//     cout << es->str() << " " << es2->str() << endl;
+//     *es2 += "1";
+//     cout << es->str() << " " << es2->str() << endl;
+// }
