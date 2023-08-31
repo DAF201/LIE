@@ -85,13 +85,29 @@ public:
     {
         if type_check (string_like, elastic_string)
         {
-            this->dict[elastic_string::hash_str(this.str())]->instances--; // reduce old instance
-            this->this_str = str.this_str;                                 // copy pointer
-            this->dict[elastic_string::hash_str(this.str())]->instances++; // increase new instance
+            this->dict[elastic_string::hash_str(*(this->str()))]->instances--; // reduce old instance
+            this->this_str = str.this_str;                                     // copy pointer
+            this->dict[elastic_string::hash_str(*(this->str()))]->instances++; // increase new instance
         }
         else
         {
-            // TODO
+            std::string *buffer = new std::string(str);                        // create string buffer
+            int hash_key = elastic_string::hash_str(*buffer);                  // calculate the hash key
+            this->dict[elastic_string::hash_str(*(this->str()))]->instances--; // reduce old instance
+            if (this->dict.count(hash_key) == 1)                               // if the new string exist alreay
+            {
+                this->dict[hash_key]->instances += 1; // new isntance increase
+                delete buffer;
+            }
+            else
+            {
+                v_str_rec *new_record = new v_str_rec(); // new record
+                new_record->data = buffer;               // assign values
+                new_record->len = buffer->size();
+                new_record->instances = 1;
+                this->dict[hash_key] = new_record; // add to map
+            }
+            this->this_str = this->dict[hash_key]; // point to the map
         }
     }
 
