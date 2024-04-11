@@ -13,7 +13,7 @@ git clone https://github.com/DAF201/labor_is_evil
 cd labor_is_evil
 sudo python setup.py install
 cd ..
-rm -rf labor_is_evil
+sudo rm -rf labor_is_evil
 ```
 
 
