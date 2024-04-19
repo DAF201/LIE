@@ -9,6 +9,5 @@ setuptools.setup(
     url='https://github.com/DAF201/labor_is_evil',
     download_url='https://github.com/DAF201/labor_is_evil',
     packages=['LIE'],
-    license='GPLv3',
     python_requires=">=3",
 )
